@@ -22,7 +22,6 @@ class Tree implements \IteratorAggregate, \JsonSerializable
     {
         $this->tree = self::parseList($list);
     }
-	//{ "Pete": "Nick", "Barbara": "Nick", "Nick": "Sophie", "Sophie": "Jonas" }
 	private function getChildren($name, $list, &$children) {
 		if(isset($children[$name])){
 			return $children[$name];
