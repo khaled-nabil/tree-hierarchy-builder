@@ -1,0 +1,7 @@
+/application/data/database.sq3
+/application/data/database.test.sq3
+/application/vendor/
+/application/logs/*
+!/application/logs/README.md
+composer.phar
+**.pdf
