@@ -40,8 +40,6 @@ class Tree implements \IteratorAggregate, \JsonSerializable
     /**
      * Transform list-like assoc array [$child => $parent, $grandchild => $child]
      * into hierarchical (tree-like) assoc array [$parent => [$child => [$grandchild => []]
-	 * Assumptions: application/json content type already prevents duplicate definition of keys, thus loops are only possible at root.
-	 * In the case of a loop, no root will be found, thus throws logical exception
      *
      * @param array $list an assoc array with child as key, parent as value
      * @throws \InvalidArgumentException the input array was malformed
@@ -50,11 +48,17 @@ class Tree implements \IteratorAggregate, \JsonSerializable
      */
     public function parseList(array $list) : array
     {
+		if(!$list) 
+			throw new \InvalidArgumentException("Invalid input (cannot be decoded)");
 		$children = array();
 		$tree = array();
 		foreach($list as $child => $parent) {
+			if(!$child || is_object($child)) throw new \InvalidArgumentException("Child value unassigned for Parent: ".$parent);
+			if(!$parent || is_object($parent)) throw new \InvalidArgumentException("Parent value unassigned for Child: ".$child);
+			if($parent == $child) throw new RecursionException("Parent and Child must be different values for ".$parent);
+			if(@$list[$parent] == $child) throw new RecursionException("Recursion between ".$parent." and ".$child." nodes");
 			if(!isset($list[$parent])) { // Start from roots down, if more than 1 root, print error.
-				if(sizeof($tree)> 0) {
+				if(sizeof($tree)> 0 && key($tree) != $parent) {
 					throw new RecursionException("Tree structure can only have 1 root, roots found: ".key($tree)." and ".$parent);
 				}
 				$tree[$parent] = $this->getChildren($parent, $list, $children);

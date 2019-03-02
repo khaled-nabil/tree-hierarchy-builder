@@ -22,12 +22,8 @@ class PostHierarchyController
     public function __invoke(Request $request, Response $response)
     {
         // https://github.com/php-fig/http-message/blob/master/src/ServerRequestInterface.php#L167
-        $data = $request->getParsedBody();
-        if (!$data) {
-            return $response->withJson(['error' => 'Invalid input (cannot be decoded)'], 400);
-        }
-
         try {
+			$data = $request->getParsedBody();			
             $tree = new Tree($data);
 			return $response->withJson($tree, 200);
 
