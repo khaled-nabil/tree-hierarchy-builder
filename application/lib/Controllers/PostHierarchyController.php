@@ -23,12 +23,13 @@ class PostHierarchyController
     {
         // https://github.com/php-fig/http-message/blob/master/src/ServerRequestInterface.php#L167
         $data = $request->getParsedBody();
-        if (!$datta) {
+        if (!$data) {
             return $response->withJson(['error' => 'Invalid input (cannot be decoded)'], 400);
         }
 
         try {
             $tree = new Tree($data);
+			return $response->withJson($tree, 200);
 
             $this->dbConnection->beginTransaction();
             try {
@@ -52,7 +53,6 @@ class PostHierarchyController
 
             return $response->withJson($tree, 200, JSON_PRETTY_PRINT);
         } catch (\InvalidArgumentException $e) {
-
             return $response->withJson(['error' => $e->getMessage()], 422);
         }
     }
