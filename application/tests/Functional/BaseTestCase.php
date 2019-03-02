@@ -46,15 +46,19 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         require __DIR__ . '/../../src/routes.php';
     }
 
-    public function runApp($requestMethod, $requestUri, $requestData = null)
+    public function runApp($requestMethod, $requestUri, $requestData = null, $requestAuthHeader = null)
     {
-        // Create a mock environment for testing with
-        $environment = Environment::mock(
-            [
+		$enviromentData = [
                 'REQUEST_METHOD' => $requestMethod,
                 'REQUEST_URI' => $requestUri
-            ]
-        );
+            ];
+			
+		// if authentication is set
+		if(isset($requestAuthHeader))
+			$enviromentData['HTTP_AUTHORIZATION'] = $requestAuthHeader;
+	
+        // Create a mock environment for testing with
+        $environment = Environment::mock($enviromentData);
 
         // Set up a request object based on the environment
         $request = Request::createFromEnvironment($environment);

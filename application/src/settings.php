@@ -11,7 +11,6 @@ return [
             'path' => 'php://stdout',
             'level' => \Monolog\Logger::DEBUG,
         ],
-
         'database' => [
             'dsn' => 'sqlite:' . __DIR__ . '/../data/database.sq3',
             'username' => null,
@@ -19,6 +18,13 @@ return [
             'attributes' => [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ]
-        ]
+        ],
+        "jwt" => [
+            'secret' => 'e10adc3949ba59abbe56e057f20f883e'
+        ],
+		'system' => [
+			'username' => 'admin',
+			'password' => '123456'
+		]
     ],
 ];

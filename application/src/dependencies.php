@@ -32,7 +32,26 @@ $container['db'] = function (ContainerInterface $c) {
             FOREIGN KEY (supervisor) REFERENCES employees(name)
         );'
     );
-
+	
+    $pdo->exec(
+        'CREATE TABLE IF NOT EXISTS users (
+            username VARCHAR(128) NOT NULL,
+            password VARCHAR(128) NOT NULL,
+            PRIMARY KEY (username)
+        );'
+    );
+	
+	// The follow is purely for testing purposes.
+	$superuser = $c->get('settings')['system'];
+	$username = $superuser['username'];
+	$password = password_hash($superuser['password'], PASSWORD_DEFAULT);
+	$sql = sprintf(
+		"INSERT INTO users (username, password) VALUES ('%s','%s') ",
+		$username,
+		$password
+	);
+	$pdo->exec('DELETE FROM users');
+	$pdo->exec($sql);
     return $pdo;
 };
 
