@@ -30,10 +30,15 @@ class PostHierarchyController
             $this->dbConnection->beginTransaction();
 			$this->dbConnection->exec('DELETE FROM employees');
 			foreach ($tree as $child => $parent) {
-				$sql = sprintf("INSERT INTO employees (name, supervisor) VALUES ('%s','%s') ",
-					$child,
-					$parent
-				);
+				if($parent) //in case if empty don't insert empty string
+					$sql = sprintf("INSERT INTO employees (name, supervisor) VALUES ('%s','%s') ",
+						$child,
+						$parent
+					);
+				else
+					$sql = sprintf("INSERT INTO employees (name) VALUES ('%s') ",
+						$child
+					);
 				$this->dbConnection->exec($sql);
 			}
 			$this->dbConnection->commit();
