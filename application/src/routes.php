@@ -5,6 +5,8 @@ use \Firebase\JWT\JWT;
 
 $app->post('/hierarchy', \Personia\Controllers\PostHierarchyController::class);
 
+$app->get('/supervisor/{name}', \Personia\Controllers\GetHierarchyController::class);
+
 $app->post('/login', function (Request $request, Response $response, array $args) {
 	// verify username and password then pass jwt token
     $input = $request->getParsedBody();

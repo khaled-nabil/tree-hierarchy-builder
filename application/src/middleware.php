@@ -3,7 +3,7 @@
  * Application middleware
  */
 $app->add(new \Tuupola\Middleware\JwtAuthentication([
-    "path" => "/hierarchy",
+    "path" => ["/hierarchy","/supervisor"],
     "attribute" => "decoded_token_data",
     "secret" => "e10adc3949ba59abbe56e057f20f883e",
     "algorithm" => ["HS256"],
