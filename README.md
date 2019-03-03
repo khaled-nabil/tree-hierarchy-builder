@@ -20,10 +20,13 @@ The RESTful API is avaiable at http://127.0.0.1:8090
 
 ### RESTful API endpoint
 
-| Type | URI       | Header                     | Body                                              | Response    |
-|------|-----------|----------------------------|---------------------------------------------------|-------------|
-| POST | login     | -                          | JSON Object `{"username":"...","password":"..."}` | JWT         |
-| POST | hierarchy | Authentication: Bearer JWT | JSON Object `{child: parent,..}`                  | JSON Object |
+| Type | URI                | Header                     | Body                                              | Response    |
+|------|--------------------|----------------------------|---------------------------------------------------|-------------|
+| POST | /login             | -                          | JSON Object `{"username":"...","password":"..."}` | JWT         |
+| GET  | /supervisor/{name} | Authentication: Bearer JWT | -                                                 | JSON Object |
+| POST | /hierarchy         | Authentication: Bearer JWT | JSON Object `{child: parent,..}`                  | JSON Object |
+
+*Note*: default values for login `{"username":"admin","password":"123456"}`
 
 ## Run the tests
 
