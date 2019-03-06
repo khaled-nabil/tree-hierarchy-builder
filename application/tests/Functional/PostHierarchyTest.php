@@ -34,30 +34,6 @@ class PostHierarchyTest extends BaseTestCase
         $this->assertEquals(400, $response->getStatusCode());
 
     }
-	public function testGetSupervisorShouldBe204NoSupervisor()
-    {
-        $response = $this->runApp('GET', '/supervisor/Jonas', null, $this->token);
-        $this->assertEquals(204, $response->getStatusCode());
-
-    }
-	public function testGetSupervisorShouldBe404EmployeeNotFound()
-    {
-        $response = $this->runApp('GET', '/supervisor/Random', null, $this->token);
-        $this->assertEquals(404, $response->getStatusCode());
-
-    }
-
-    public function testGetValidSupervisor()
-    {
-        $expected = json_decode('[
-    "Nick",
-    "Sophie",
-    "Jonas"
-]', true);
-        $response = $this->runApp('GET', '/supervisor/Pete', null, $this->token);
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals($expected, json_decode((string)$response->getBody(), true));
-    }
 	
     public function testPostHierarchy()
     {
@@ -95,5 +71,30 @@ class PostHierarchyTest extends BaseTestCase
         $response = $this->runApp('POST', '/hierarchy', $payload, $this->token);
 
         $this->assertEquals(422, $response->getStatusCode());
+    }
+	
+		public function testGetSupervisorShouldBe204NoSupervisor()
+    {
+        $response = $this->runApp('GET', '/supervisor/Jonas', null, $this->token);
+        $this->assertEquals(204, $response->getStatusCode());
+
+    }
+	public function testGetSupervisorShouldBe404EmployeeNotFound()
+    {
+        $response = $this->runApp('GET', '/supervisor/Random', null, $this->token);
+        $this->assertEquals(404, $response->getStatusCode());
+
+    }
+
+    public function testGetValidSupervisor()
+    {
+        $expected = json_decode('[
+    "Nick",
+    "Sophie",
+    "Jonas"
+]', true);
+        $response = $this->runApp('GET', '/supervisor/Pete', null, $this->token);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals($expected, json_decode((string)$response->getBody(), true));
     }
 }
